@@ -1,0 +1,136 @@
+﻿@model AdminLeaveRequestViewVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <div class="info-box">
+            @*<span class="info-box-icon bg-info"></span>*@
+
+            <div class="info-box-content bg-">
+                <span class="info-box-text">@Model.TotalRequests</span>
+                <span class="info-box-number">@Html.DisplayNameFor(model => model.TotalRequests)</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="info-box">
+
+            <div class="info-box-content">
+                <span class="info-box-text">@Model.PendingRequests</span>
+                <span class="info-box-number">@Html.DisplayNameFor(model => model.PendingRequests)</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="info-box">
+
+            <div class="info-box-content">
+                <span class="info-box-text">@Model.ApprovedRequests</span>
+                <span class="info-box-number">@Html.DisplayNameFor(model => model.ApprovedRequests)</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="info-box">
+
+            <div class="info-box-content">
+                <span class="info-box-text">@Model.RejectedRequests</span>
+                <span class="info-box-number">@Html.DisplayNameFor(model => model.RejectedRequests)</span>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<br />
+<br />
+<hr />
+<h1>Leave Requests Log</h1>
+
+<table id="tblData" class="table">
+    <thead>
+        <tr>
+            <th>
+                Employee Name
+            </th>
+
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                Leave Type
+            </th>
+            <th>
+                Date Requested
+            </th>
+
+            <th>
+                Approval Status
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.LeaveRequests) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestingEmployee.FirstName) @Html.DisplayFor(modelItem => item.RequestingEmployee.LastName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveType.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateRequested)
+            </td>
+            <td>
+                @if (item.Approved == true)
+                {
+                    <span class="badge badge-success">Approved</span>
+                }
+                else if (item.Approved == false)
+                {
+                    <span class="badge badge-danger">Rejected</span>
+                }
+                else
+                {
+                    <span class="badge badge-warning">Pending Approval</span>
+                }
+            </td>
+
+            <td>
+
+                <a class="btn btn-primary" asp-action="Administer" asp-route-id="@item.Id">
+                    <i class="fa fa-file"></i>Administer
+                </a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
